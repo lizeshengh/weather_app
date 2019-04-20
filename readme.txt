@@ -6,5 +6,5 @@ To run the program, use command "py -3 server.py" in Windows PowerShell and then
 After that, user can type the city name and click the search button.
 If the input name is invalid, the website will be directed to a page with error message.
 If the input name is valid, the website will display city name, current weather, current temperature, maximum and minimum temperature of the day, pressure and humidity.
-Additionally, the website will display hourly forecast for the next 24 hours and hourly forecast for the next 96 hours using charts.
+Additionally, the website will display hourly forecast for the next 24 hours and hourly forecast for the next 96 hours using charts and all these temperatures are displayed in Celsius.
 Clicking the return button redirects website to the home page.
