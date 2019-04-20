@@ -1,0 +1,102 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+
+<body>
+  <h1>City Name: &nbsp &nbsp {{city_name}}</h1>
+  <p>Current Weather: &nbsp &nbsp {{cw_data.weather}}</p>
+  <p> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp{{cw_data.description}}</p>
+  <p>Current Temperature: &nbsp &nbsp {{cw_data.temp}} &#8451 </p>
+  <pre class="tab"> <font color="red">{{cw_data.temp_max}} &#8451 </font> <font color="blue">{{cw_data.temp_min}} &#8451 </font> </pre>
+  <li>Pressure: &nbsp &nbsp {{cw_data.pressure}} hpa</li>
+  <li>Humidity: &nbsp &nbsp {{cw_data.humidity}} %</li>
+  
+<p>hourly forecast for the next 24 hours:</p>
+
+<canvas id="myCanvas24" width="800" height="300"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<p>hourly forecast for the next 96 hours:</p>
+
+<canvas id="myCanvas" width="800" height="300"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+
+<script>
+// 96 hours forecast
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var string_temp = '{{hf_data.str_temp}}';
+var list_temp = string_temp.split(",");
+var string_weather = '{{hf_data.str_weather}}';
+var list_weather = string_weather.split(",");
+var string_date = '{{hf_data.str_date}}';
+var list_date = string_date.split(",");
+var x = 0;
+var y = (50- (Number(list_temp[0])))*3;
+for (var i = 1; i < list_temp.length-1; i++){
+	//document.write(i)
+	ctx.moveTo(x,y);
+	x = i*7;
+	y = (50 - (Number(list_temp[i])))*3;
+	ctx.lineTo(x,y);
+	ctx.stroke();
+	if (i%24 == 23){
+		ctx.beginPath();
+		ctx.arc(x,y,2,0,2*Math.PI);
+		ctx.fill()
+		ctx.stroke();
+		
+		ctx.font = "14px Arial";
+		ctx.fillText(list_date[i], x-50, 290 );
+		ctx.font = "14px Arial";
+		ctx.fillText(list_temp[i], x-20, y+30 );
+		ctx.font = "14px Arial";
+		ctx.fillText(list_weather[i], x-20, 250 );
+	}
+	
+}
+
+// 24 hours forecast
+canvas = document.getElementById("myCanvas24");
+ctx = canvas.getContext("2d");
+x = 0;
+y = (50- (Number(list_temp[0])))*3;
+for (var i = 1; i < 24; i++){
+	//document.write(i)
+	ctx.moveTo(x,y);
+	x = i*25;
+	y = (50 - (Number(list_temp[i])))*3;
+	ctx.lineTo(x,y);
+	ctx.stroke();
+	if (i%3 == 2){
+		ctx.beginPath();
+		ctx.arc(x,y,2,0,2*Math.PI);
+		ctx.fill()
+		ctx.stroke();
+		
+		ctx.font = "14px Arial";
+		ctx.fillText(list_date[i].split(" ")[1], x-30, 290 );
+		ctx.font = "14px Arial";
+		ctx.fillText(list_temp[i], x-20, y+30 );
+		ctx.font = "14px Arial";
+		ctx.fillText(list_weather[i], x-20, 250 );
+	}
+	
+}
+</script>
+
+<form method="POST" action="/goback">
+<p><input type="submit" value="Return"></p>
+</form>
+
+</body>
+</html>
